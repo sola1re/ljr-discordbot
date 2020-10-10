@@ -1,5 +1,8 @@
 function help(command,msg){
-    console.log(`Help command issued. Command was: ${command}`);//Debug: log content of help command
-    msg.reply(`Help command issued. Command was: **${command}**`)
+    if(command!==""){
+        msg.reply(`Help command issued. Command was: **${command}**`);//Debug: log content of help command
+    }
+    
+    
 }
 module.exports = help;
