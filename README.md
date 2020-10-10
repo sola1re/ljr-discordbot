@@ -1,16 +1,16 @@
-# BOT Discord du serveur discord du Lycée Jean Renoir.
+# BOT Discord LJR
 
 ## Usage Basic
 
 ### Login
 
-Pour pouvoir se connecter avec le bot, il faut créer un fichier token.json dans le dossier principal ou se situe index.js et README.md et mettre votre Token dedans. Le fichier devrait ressembler a ça:
+Pour pouvoir se connecter avec le bot, il faut créer un fichier private_info.json dans le dossier principal ou se situe index.js et README.md et mettre votre Token dedans. Le fichier devrait ressembler a ça:
 
 ```
 {
-    "loginInfo":{
-        "username":"your_username",
-        "password":"your_password"
+    "instaLoginInfo":{
+        "username":"your_instagram_username",
+        "password":"your_instagram_password"
     },
 
     "token": "your_really_long_discord_bot_token"
@@ -22,6 +22,6 @@ Les commandes actuelles du bot sont:
 
 ```
 +help
-+insta_account
++insta
 +ping
 ```
