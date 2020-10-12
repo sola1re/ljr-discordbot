@@ -6,7 +6,7 @@
 
 Pour pouvoir se connecter avec le bot, il faut créer un fichier private_info.json dans le dossier principal ou se situe index.js et README.md et mettre votre Token dedans. Le fichier devrait ressembler a ça:
 
-```
+```json
 {
     "instaLoginInfo":{
         "username":"your_instagram_username",

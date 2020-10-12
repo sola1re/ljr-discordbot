@@ -103,4 +103,7 @@ dist
 # TernJS port file
 .tern-port
 token.txt
-private_info.json
+#discord token file and instagram login
+private_info.json 
+config.json
+temp.js

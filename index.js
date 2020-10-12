@@ -26,7 +26,7 @@ client.once('ready', () => {//Debug: log if the bot is ready
 
 
 client.on('message', msg => {//Scan all messages for commands
-  console.log(`${msg.author.username} just wrote: "${msg.content}"`);//Debug: log messages
+  console.log(`#${msg.channel.name}: ${msg.author.username} just wrote: "${msg.content}"`);//Debug: log messages
     if (msg.content.toLowerCase().startsWith(prefix) && msg.content.toLowerCase()!= "+") {
       // msg.reply('command issued');//Debug: reply if command was issued
       
