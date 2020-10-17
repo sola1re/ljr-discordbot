@@ -28,22 +28,28 @@ function instaLogin(msg,command){
 
     ;(async () => {
       const photos = await clientI.getPhotosByUsername({ username: command[2],first: 50 })
+      const profili = await clientI.getUserByUsername({ username: command[2] })
       
       var instaProfileEmbed = new discord.MessageEmbed()
       instaProfileEmbed.setColor("#eb3461")
-      instaProfileEmbed.setAuthor(command[2])
+      instaProfileEmbed.setAuthor(`Post de: ${command[2]}`)
       instaProfileEmbed.setTitle(`instagram.com/${command[2]}`)
       instaProfileEmbed.setURL(`https://instagram.com/${command[2]}`)
-      instaProfileEmbed.setThumbnail('https://i.imgur.com/wSTFkRM.png')
-      msg.channel.send(`Post de ${command[2]}: ${command[3]}`)
+      instaProfileEmbed.setThumbnail(profili.profile_pic_url_hd)
+      // msg.channel.send(`Post de ${command[2]}: ${command[3]}`)
       instaProfileEmbed.setImage(photos.user.edge_owner_to_timeline_media.edges[parseInt(command[3],10)].node.display_url)//add display photo url to embed
       if(photos.user.edge_owner_to_timeline_media.edges[parseInt(command[3],10)].node.edge_media_to_caption.edges[0]!=undefined){//check if caption exists
         if(photos.user.edge_owner_to_timeline_media.edges[parseInt(command[3],10)].node.edge_media_to_caption.edges[0].node.text!=""){//check if caption is not empty
-          instaProfileEmbed.setDescription(photos.user.edge_owner_to_timeline_media.edges[parseInt(command[3],10)].node.edge_media_to_caption.edges[0].node.text.slice(0, 60).concat("..."))
+          instaProfileEmbed.setDescription(photos.user.edge_owner_to_timeline_media.edges[parseInt(command[3],10)].node.edge_media_to_caption.edges[0].node.text.slice(0, 60).concat("..."))//puts the first 60 characters of the caption in the description of the embed
         }
       }
       instaProfileEmbed.setTimestamp()
-      instaProfileEmbed.setFooter('Provided by the LJR BOT', 'https://i.imgur.com/YvuTNrM.png');
+      if(690272624596484117==msg.guild.id){
+        instaProfileEmbed.setFooter('Provided by the LJR BOT', 'https://i.imgur.com/YvuTNrM.png');
+      }
+      else{
+        instaProfileEmbed.setFooter('Provided by the CHROME BOT', 'https://cdn.discordapp.com/icons/401661394589843456/709e0074af98e28d142d45a5de3659ba.png?size=256')
+      }
       msg.channel.send(instaProfileEmbed)
       
       ////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -61,21 +67,11 @@ function instaLogin(msg,command){
       // const photos = await clientI.getPhotosByUsername({ username: 'ljr_memes' })
       const ljrdiscordbot = await clientI.getUserByUsername({ username: 'ljrdiscordbot' })
       console.log(ljrdiscordbot)
-      // console.log(profileI);
-      // console.log(feed);
-      // console.log(photos);
-      // console.log(photos.user.edge_owner_to_timeline_media.page_info);
-      // console.log(photos.user.edge_owner_to_timeline_media.edges);
       msg.channel.send(`${profileI.first_name} | Instagram: **${profileI.username}**`);
       msg.reply(`Discord Server: ${profileI.external_url}`);
-      // msg.reply(`Photo: ${feed.data.user.profile_pic_url}`);
-      // msg.channel.send(`ljr_memes: ${command[2]}`)
-      // msg.channel.send(`${photos.user.edge_owner_to_timeline_media.edges[parseInt(command[2],10)].node.display_url}`)
     })()
   }
   else if(command[1]=="add"){//saves the profile in config.json
-    // console.log(`profile list: ${profileList}`)
-    // console.log(profileList.accounts)
 
     if(!profileList.accounts.includes(command[2])){
       profileList.accounts.push(command[2])
