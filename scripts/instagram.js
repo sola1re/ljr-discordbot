@@ -1,7 +1,9 @@
+const discord = require("discord.js");
 const Instagram = require('instagram-web-api');
 const json = require("./../private_info.json");
 const profileList = require("./../config.json")
-const fs = require("fs")
+const fs = require("fs");
+const { DiscordAPIError } = require('discord.js');
 var username =json.instaLoginInfo.username
 var password =json.instaLoginInfo.password
 const clientI = new Instagram({ username, password })
@@ -27,16 +29,24 @@ function instaLogin(msg,command){
     ;(async () => {
       const photos = await clientI.getPhotosByUsername({ username: command[2],first: 50 })
       
-      // console.log(photos);
-      // console.log(photos.user.edge_owner_to_timeline_media.edges);
-
-      msg.channel.send(`${command[2]}: ${command[3]}`)
-      msg.channel.send(`${photos.user.edge_owner_to_timeline_media.edges[parseInt(command[3],10)].node.display_url}`)
-      // console.log(`Edge_media_to_caption: ${photos.user.edge_owner_to_timeline_media.edges[parseInt(command[3],10)].node.edge_media_to_caption.edges[0].node.text}`)
-      // var temporal = photos.user.edge_owner_to_timeline_media.edges[parseInt(command[3],10)].node.edge_media_to_caption
-      // console.log(temporal.edges[0].node.text)
-      // console.log(photos)
-      msg.channel.send(photos.user.edge_owner_to_timeline_media.edges[parseInt(command[3],10)].node.edge_media_to_caption.edges[0].node.text)
+      var instaProfileEmbed = new discord.MessageEmbed()
+        .setColor("#eb3461")
+        .setAuthor(command[2])
+        .setURL("discord.js")
+      
+      ////////////////////////////////////////////////////////////////////////////////////////////////////
+      console.log(photos.user.edge_owner_to_timeline_media.edges[parseInt(command[3],10)].node.is_video);
+      if(photos.user.edge_owner_to_timeline_media.edges[parseInt(command[3],10)].node.is_video==true){
+        msg.channel.send(photos.user.edge_owner_to_timeline_media.edges[parseInt(command[3],10)].node.video_url)
+      }
+      else{
+        msg.channel.send(`Post de${command[2]}: ${command[3]}`)
+        msg.channel.send(`${photos.user.edge_owner_to_timeline_media.edges[parseInt(command[3],10)].node.display_url}`)
+      }
+      if(!photos.user.edge_owner_to_timeline_media.edges[parseInt(command[3],10)].node.edge_media_to_caption.edges[0].node.text==""){
+        msg.channel.send(photos.user.edge_owner_to_timeline_media.edges[parseInt(command[3],10)].node.edge_media_to_caption.edges[0].node.text)
+      }
+      
     })()
   }
   else if(command[1]=="profile"){//get the profile
@@ -45,7 +55,8 @@ function instaLogin(msg,command){
       const profileI = await clientI.getProfile()
       const feed = await clientI.getHome()
       // const photos = await clientI.getPhotosByUsername({ username: 'ljr_memes' })
-      
+      const ljrdiscordbot = await clientI.getUserByUsername({ username: 'ljrdiscordbot' })
+      console.log(ljrdiscordbot)
       // console.log(profileI);
       // console.log(feed);
       // console.log(photos);
