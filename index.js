@@ -15,7 +15,7 @@ function commands(commandRequest,msg){//Commands function
   if (command[0]=="help"){help(command,msg)}//help
   else if (command[-1]=="--help"){help(command,msg);}//--help
   else if (command[0]=="insta"){instaLogin(msg,command);}//display name, username and url of account
-  else if (command[0]=="ping"){msg.reply("pong!:laughing:")}//pong!
+  else if (command[0]=="ping"){msg.reply(`🏓Latency is ${Date.now() - msg.createdTimestamp}ms. API Latency is ${Math.round(client.ws.ping)}ms`);}//pong!
   else {msg.reply("Cette commande n'est pas reconnue!")}
   return `Command Request was:${commandRequest}`;
 }

@@ -30,22 +30,26 @@ function instaLogin(msg,command){
       const photos = await clientI.getPhotosByUsername({ username: command[2],first: 50 })
       
       var instaProfileEmbed = new discord.MessageEmbed()
-        .setColor("#eb3461")
-        .setAuthor(command[2])
-        .setURL("discord.js")
+      instaProfileEmbed.setColor("#eb3461")
+      instaProfileEmbed.setAuthor(command[2])
+      instaProfileEmbed.setTitle(`instagram.com/${command[2]}`)
+      instaProfileEmbed.setURL(`https://instagram.com/${command[2]}`)
+      instaProfileEmbed.setThumbnail('https://i.imgur.com/wSTFkRM.png')
+      msg.channel.send(`Post de ${command[2]}: ${command[3]}`)
+      instaProfileEmbed.setImage(photos.user.edge_owner_to_timeline_media.edges[parseInt(command[3],10)].node.display_url)//add display photo url to embed
+      if(photos.user.edge_owner_to_timeline_media.edges[parseInt(command[3],10)].node.edge_media_to_caption.edges[0]!=undefined){//check if caption exists
+        if(photos.user.edge_owner_to_timeline_media.edges[parseInt(command[3],10)].node.edge_media_to_caption.edges[0].node.text!=""){//check if caption is not empty
+          instaProfileEmbed.setDescription(photos.user.edge_owner_to_timeline_media.edges[parseInt(command[3],10)].node.edge_media_to_caption.edges[0].node.text.slice(0, 60).concat("..."))
+        }
+      }
+      instaProfileEmbed.setTimestamp()
+      instaProfileEmbed.setFooter('Provided by the LJR BOT', 'https://i.imgur.com/YvuTNrM.png');
+      msg.channel.send(instaProfileEmbed)
       
       ////////////////////////////////////////////////////////////////////////////////////////////////////
       console.log(photos.user.edge_owner_to_timeline_media.edges[parseInt(command[3],10)].node.is_video);
-      if(photos.user.edge_owner_to_timeline_media.edges[parseInt(command[3],10)].node.is_video==true){
-        msg.channel.send(photos.user.edge_owner_to_timeline_media.edges[parseInt(command[3],10)].node.video_url)
-      }
-      else{
-        msg.channel.send(`Post de${command[2]}: ${command[3]}`)
-        msg.channel.send(`${photos.user.edge_owner_to_timeline_media.edges[parseInt(command[3],10)].node.display_url}`)
-      }
-      if(!photos.user.edge_owner_to_timeline_media.edges[parseInt(command[3],10)].node.edge_media_to_caption.edges[0].node.text==""){
-        msg.channel.send(photos.user.edge_owner_to_timeline_media.edges[parseInt(command[3],10)].node.edge_media_to_caption.edges[0].node.text)
-      }
+      
+      
       
     })()
   }
